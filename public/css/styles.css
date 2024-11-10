@@ -1,6 +1,205 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
+:root {
+  --primary-color: #242333;
+  --secondary-color: #01b0d3;
+  --small-font-size: 0.875rem;
+  --medium-font-size: 1.5rem;
+  --large-font-size: 1.8rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  color: var(--primary-color);
+  font-family: 'Roboto', sans-serif;
+}
+
+#wrapper {
+  padding: 1rem;
+}
+
+h1,
+h2 {
+  font-size: var(--medium-font-size);
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+header a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+#tools {
+  font-size: var(--small-font-size);
+}
+
+.siteName {
+  font-size: var(--large-font-size);
+  font-weight: 600;
+}
+
+/* Navigation */
+nav {
+  height: 50px;
+}
+
+nav ul {
+  height: 100%;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: space-around;
+  align-items: center;
+}
+
+nav li {
+  width: 100%;
+  height: 100%;
+}
+
+nav a {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #333;
+}
+
+/* Intro */
+#intro {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+#intro > img {
+  mix-blend-mode: multiply;
+  width: 90%;
+  margin: auto;
+  display: block;
+}
+
+#car-promo {
+  position: absolute;
+  padding: 0.5rem;
+  background-color: rgb(255, 255, 255, 0.8);
+  top: 2rem;
+}
+
+#car-promo h3 {
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+}
+
+#car-promo button {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+#car-promo img {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
+}
+
+/* Reviews */
+#reviews {
+  margin-bottom: 1rem;
+}
+
+#reviews ul {
+  padding-left: 1rem;
+}
+
+#reviews ul li {
+  margin-bottom: 0.8rem;
+}
+
+/* Upgrades */
+#upgrades {
+  margin-bottom: 1rem;
+}
+
+#upgrades-cards-container {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+#upgrades-cards-container div {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#upgrades-cards-container img {
+  mix-blend-mode: multiply;
+  width: 100%;
+  height: 100px;
+  padding: 15px 0;
+  object-fit: contain;
+  border: 1px solid var(--primary-color);
+  background-color: var(--secondary-color);
+}
+
+/* Footer */
+footer {
+  margin-top: 2rem;
+  font-size: var(--small-font-size);
+}
+
+@media (min-width: 768px) {
+  nav ul {
+    justify-content: center;
+  }
+
+  #intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #car-promo {
+    max-width: 50%;
+  }
+
+  #upgrades,
+  #reviews {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .upgrade-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #car-promo img {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    max-width: 350px;
+  }
 }
