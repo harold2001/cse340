@@ -15,7 +15,11 @@
 }
 
 #wrapper {
-  padding: 1rem;
+  padding: 0.7rem;
+}
+
+h1 {
+  grid-column: 1/3;
 }
 
 h1,
@@ -55,7 +59,7 @@ nav ul {
   height: 100%;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   justify-content: space-around;
   align-items: center;
 }
@@ -166,6 +170,62 @@ nav a:hover {
   background-color: var(--secondary-color);
 }
 
+/* Types */
+#inv-display {
+  margin: auto;
+  grid-column: 1/3;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+#inv-display li {
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 150px auto;
+  overflow: hidden;
+  width: 240px;
+}
+
+#inv-display > li > a {
+  grid-column: 1/2;
+  display: flex;
+  align-items: start;
+  grid-row: 1/2;
+}
+
+#inv-display > li > a > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+}
+
+#inv-display hr {
+  border: 2px solid black;
+}
+
+.namePrice {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.namePrice h2 {
+  padding: 0 1rem;
+}
+
+.namePrice h2 a {
+  font-size: 1.25rem;
+}
+
+.namePrice span {
+  padding: 0 1rem;
+}
+
 /* Footer */
 footer {
   margin-top: 2rem;
@@ -201,6 +261,7 @@ footer {
     background-color: white;
     border: 4px solid var(--secondary-color);
     border-radius: 10px;
+    padding: 1rem;
   }
 
   #intro {
