@@ -19,4 +19,16 @@ invCont.buildByClassificationId = async function (req, res, next) {
   });
 };
 
+invCont.buildByItemId = async function (req, res, next) {
+  const item_id = req.params.itemId;
+  const data = await invModel.getInventoryByItemId(item_id);
+  const grid = await utilities.buildItemGrid(data);
+  let nav = await utilities.getNav();
+  res.render('./inventory/classification', {
+    title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+    nav,
+    grid,
+  });
+};
+
 module.exports = invCont;

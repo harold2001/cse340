@@ -80,4 +80,32 @@ Util.buildClassificationGrid = async function (data) {
 Util.handleErrors = fn => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
+/* **************************************
+ * Build the item view HTML
+ * ************************************ */
+Util.buildItemGrid = async function (data) {
+  let grid;
+  if (data) {
+    grid = `
+    <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${
+      data.inv_model
+    } on CSE Motors" id="item-image" />
+    <section id="item-details">
+      <h2 id="detail-subtitle">${data.inv_make} ${data.inv_model} details</h2>
+      <p><span>Price:</span> $${new Intl.NumberFormat('en-US').format(
+        data.inv_price
+      )}</p>
+      <p><span>Description:</span>${data.inv_description}</p>
+      <p><span>Color:</span> ${data.inv_color}</p>
+      <p><span>Miles:</span> ${new Intl.NumberFormat('en-US').format(
+        data.inv_miles
+      )}</p>
+    </section>
+    `;
+  } else {
+    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+  }
+  return grid;
+};
+
 module.exports = Util;
