@@ -279,7 +279,7 @@ footer {
 }
 
 /* Login Form */
-#login-form {
+.form {
   background-color: var(--secondary-color);
   display: flex;
   flex-direction: column;
@@ -290,25 +290,25 @@ footer {
   margin: auto;
 }
 
-#login-form label {
+.form label {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   color: white;
 }
 
-#login-form input {
+.form input {
   padding: 0.5rem;
   border: 1px solid white;
   border-radius: 5px;
   color: black;
 }
 
-#login-form input:focus {
+.form input:focus {
   outline: none;
 }
 
-#login-form button {
+.form button {
   background-color: white;
   color: var(--secondary-color);
   border: 1px solid var(--secondary-color);
@@ -331,6 +331,18 @@ footer {
 
 #no-account a {
   color: white;
+}
+
+/* Register Form */
+#required-message {
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+/* Messages */
+#messages {
+  margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -430,10 +442,16 @@ footer {
     font-size: var(--medium-font-size);
   }
 
-  #login-form {
+  .form {
     grid-column: 1/3;
     width: 60%;
     max-width: 550px;
+  }
+
+  #messages {
+    margin: 0;
+    grid-column: 1 / 3;
+    padding-left: 16px;
   }
 }
 
