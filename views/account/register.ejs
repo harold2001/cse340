@@ -3,20 +3,27 @@
 <% } else { res.redirect('/') } %>
 
 <%- messages() %>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <%  }) %>
+</ul>
+<% } %>
 
 <form class="form" method="post" action="/account/register">
   <span id="required-message">* All fields are required</span>
   <label>
-    First Name: <input type="text" name="account_firstname" />
+    First Name: <input type="text" name="account_firstname" required />
   </label>
   <label>
-    Last Name: <input type="text" name="account_lastname" />
+    Last Name: <input type="text" name="account_lastname" required />
   </label>
   <label>
-    Email: <input type="text" name="account_email" placeholder="example@example.com" />
+    Email: <input type="email" name="account_email" placeholder="example@example.com" required />
   </label>
   <label>
-    Password: <input type="password" name="account_password" placeholder="Insert your password here" />
+    Password: <input type="password" name="account_password" placeholder="Insert your password here" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" />
   </label>
   <!-- <button>Show password</button> -->
   <button type="submit">Register</button>

@@ -41,13 +41,21 @@ header a {
   color: var(--primary-color);
 }
 
-#tools {
-  font-size: var(--small-font-size);
+input:invalid {
+  background-color: pink;
+}
+
+input:valid {
+  background-color: #b9edb996;
 }
 
 .siteName {
   font-size: var(--large-font-size);
   font-weight: 600;
+}
+
+#tools {
+  font-size: var(--small-font-size);
 }
 
 /* Navigation */
@@ -299,7 +307,7 @@ footer {
 
 .form input {
   padding: 0.5rem;
-  border: 1px solid white;
+  border: 0;
   border-radius: 5px;
   color: black;
 }
@@ -343,6 +351,16 @@ footer {
 /* Messages */
 #messages {
   margin-bottom: 1rem;
+}
+
+.notice {
+  padding-left: 22px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.notice li {
+  color: red;
 }
 
 @media (min-width: 768px) {
@@ -452,6 +470,10 @@ footer {
     margin: 0;
     grid-column: 1 / 3;
     padding-left: 16px;
+  }
+
+  .notice {
+    margin: 0;
   }
 }
 
