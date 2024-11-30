@@ -5,7 +5,7 @@
 <%- messages() %>
 <% if (errors) { %>
 <ul class="notice">
-  <% errors.array().forEach(error => { %>
+  <% errors?.array().forEach(error => { %>
   <li><%= error.msg %></li>
   <%  }) %>
 </ul>
@@ -14,13 +14,13 @@
 <form class="form" method="post" action="/account/register">
   <span id="required-message">* All fields are required</span>
   <label>
-    First Name: <input type="text" name="account_firstname" required />
+    First Name: <input type="text" name="account_firstname" required value="<%= locals.account_firstname %>" />
   </label>
   <label>
-    Last Name: <input type="text" name="account_lastname" required />
+    Last Name: <input type="text" name="account_lastname" required value="<%= locals.account_lastname %>" />
   </label>
   <label>
-    Email: <input type="email" name="account_email" placeholder="example@example.com" required />
+    Email: <input type="email" name="account_email" placeholder="example@example.com" required value="<%= locals.account_email %>" />
   </label>
   <label>
     Password: <input type="password" name="account_password" placeholder="Insert your password here" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" />
