@@ -9,6 +9,10 @@ router.get(
   '/new/classification',
   utilities.handleErrors(invController.buildAddClassification)
 );
+router.get(
+  '/new/inventory',
+  utilities.handleErrors(invController.buildAddInventory)
+);
 
 // Route to build inventory by classification view
 router.get(

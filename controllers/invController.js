@@ -40,6 +40,16 @@ invCont.buildVehicleManagement = async function (req, res, next) {
   });
 };
 
+invCont.buildAddInventory = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  res.render('./inventory/add-inventory', {
+    title: 'Add Inventory',
+    nav,
+    errors: null,
+    selectClassification: await utilities.buildClassificationList(),
+  });
+};
+
 invCont.buildAddClassification = async function (req, res, next) {
   let nav = await utilities.getNav();
   res.render('./inventory/add-classification', {
