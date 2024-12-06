@@ -11,7 +11,10 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id);
   const grid = await utilities.buildClassificationGrid(data);
   let nav = await utilities.getNav();
-  const className = data[0].classification_name;
+  const className =
+    data[0]?.classification_name ??
+    (await invModel.getClassificationNameById(classification_id));
+
   res.render('./inventory/classification', {
     title: className + ' vehicles',
     nav,
@@ -60,15 +63,15 @@ invCont.buildAddClassification = async function (req, res, next) {
 };
 
 invCont.createNewClassification = async function (req, res, next) {
-  let nav = await utilities.getNav();
   const { classification_name } = req.body;
   const data = await invModel.createNewClassification(classification_name);
+  let nav = await utilities.getNav();
   if (data) {
     req.flash(
       'notice',
       `The ${classification_name} classification was successfully added.`
     );
-    res.status(201).render('inventory/management', {
+    res.status(201).render('./inventory/management', {
       title: 'Vehicle Management',
       nav,
       errors: null,
@@ -79,6 +82,63 @@ invCont.createNewClassification = async function (req, res, next) {
       title: 'Add Clasification',
       nav,
       errors: null,
+    });
+  }
+};
+
+invCont.createNewInventory = async function (req, res, next) {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  const data = await invModel.createNewInventory(
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color
+  );
+  let nav = await utilities.getNav();
+  if (data) {
+    req.flash('notice', `The ${inv_make} ${inv_model} was successfully added.`);
+    res.status(201).render('./inventory/management', {
+      title: 'Vehicle Management',
+      nav,
+      errors: null,
+    });
+  } else {
+    req.flash('notice', 'Sorry, the creation failed.');
+    res.status(501).render('./inventory/add-inventory', {
+      title: 'Add Inventory',
+      nav,
+      selectClassification: await utilities.buildClassificationList(
+        classification_id
+      ),
+      errors: null,
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
     });
   }
 };

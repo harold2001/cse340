@@ -28,7 +28,7 @@ Util.getNav = async function (req, res, next) {
  * Build the classification view HTML
  * ************************************ */
 Util.buildClassificationGrid = async function (data) {
-  let grid;
+  let grid = '';
   if (data.length > 0) {
     grid = '<ul id="inv-display">';
     data.forEach(vehicle => {
@@ -87,9 +87,11 @@ Util.buildItemGrid = async function (data) {
   let grid;
   if (data) {
     grid = `
-    <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${
-      data.inv_model
-    } on CSE Motors" id="item-image" />
+    <img src="${data.inv_image || '/images/vehicles/no-image.png'}" 
+        alt="Image of ${data.inv_make} ${data.inv_model} on CSE Motors" 
+        id="item-image"
+        onerror="this.onerror=null; this.src='/images/vehicles/no-image.png';"
+    />
     <section id="item-details">
       <h2 id="detail-subtitle">${data.inv_make} ${data.inv_model} details</h2>
       <p><span>Price:</span> $${new Intl.NumberFormat('en-US').format(

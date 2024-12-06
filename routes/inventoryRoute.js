@@ -32,4 +32,11 @@ router.post(
   utilities.handleErrors(invController.createNewClassification)
 );
 
+router.post(
+  '/new/inventory',
+  invValidate.newInventoryRules(),
+  invValidate.checkNewInventoryData,
+  utilities.handleErrors(invController.createNewInventory)
+);
+
 module.exports = router;
