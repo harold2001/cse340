@@ -4,6 +4,12 @@ const router = new express.Router();
 const accountController = require('../controllers/accountController');
 const utilities = require('../utilities');
 
+router.get(
+  '/',
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildManagement)
+);
+
 // Route to build inventory by classification view
 router.get('/login', utilities.handleErrors(accountController.buildLogin));
 router.get(
@@ -22,9 +28,7 @@ router.post(
   '/login',
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  (req, res) => {
-    res.status(200).send('login process');
-  }
+  utilities.handleErrors(accountController.accountLogin)
 );
 
 module.exports = router;

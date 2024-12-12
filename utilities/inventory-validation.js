@@ -184,4 +184,59 @@ validate.checkNewInventoryData = async (req, res, next) => {
   next();
 };
 
+/* ******************************
+ * Check Edit Inventory Data and Return Errors
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const {
+    inv_id,
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    // Filter out generic "Invalid value" errors for clarity
+    const errorsFiltered = errors
+      .array()
+      .filter(e => e.msg !== 'Invalid value');
+    errors.errors = errorsFiltered;
+
+    let nav = await utilities.getNav();
+
+    const itemName = `${inv_make} ${inv_model}`;
+    // Render the form with errors and pre-fill the fields with user input
+    res.render('inventory/edit-inventory', {
+      errors,
+      title: 'Edit ' + itemName,
+      nav,
+      selectClassification: await utilities.buildClassificationList(
+        classification_id
+      ),
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id,
+    });
+    return;
+  }
+  next();
+};
+
 module.exports = validate;
