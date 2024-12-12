@@ -107,6 +107,48 @@ validate.newInventoryRules = () => {
   ];
 };
 
+/*  **********************************
+ *  Delete Inventory Item Validation Rules
+ * ********************************* */
+validate.deleteInventoryRules = () => {
+  return [
+    // Validate ID
+    body('inv_id').trim().notEmpty().withMessage('ID is required.'),
+
+    // Validate Make: Alphanumeric characters and spaces
+    body('inv_make')
+      .trim()
+      .notEmpty()
+      .withMessage('Make is required.')
+      .matches(/^[A-Za-z0-9 ]+$/)
+      .withMessage('Make must contain only letters, numbers, and spaces.'),
+
+    // Validate Model: Alphanumeric characters and spaces
+    body('inv_model')
+      .trim()
+      .notEmpty()
+      .withMessage('Model is required.')
+      .matches(/^[A-Za-z0-9 ]+$/)
+      .withMessage('Model must contain only letters, numbers, and spaces.'),
+
+    // Validate Price: Must be a positive number
+    body('inv_price')
+      .notEmpty()
+      .withMessage('Price is required.')
+      .isFloat({ min: 0 })
+      .withMessage('Price must be a positive number.'),
+
+    // Validate Year: Between 1886 and the current year
+    body('inv_year')
+      .notEmpty()
+      .withMessage('Year is required.')
+      .isInt({ min: 1886, max: new Date().getFullYear() })
+      .withMessage(
+        `Year must be between 1886 and ${new Date().getFullYear()}.`
+      ),
+  ];
+};
+
 /* ******************************
  * Check New Classification Data and Return Errors
  * ***************************** */
@@ -232,6 +274,40 @@ validate.checkUpdateData = async (req, res, next) => {
       inv_year,
       inv_miles,
       inv_color,
+      inv_id,
+    });
+    return;
+  }
+  next();
+};
+
+/* ******************************
+ * Check Edit Inventory Data and Return Errors
+ * ***************************** */
+validate.checkDeleteData = async (req, res, next) => {
+  const { inv_id, inv_make, inv_model, inv_price, inv_year } = req.body;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    // Filter out generic "Invalid value" errors for clarity
+    const errorsFiltered = errors
+      .array()
+      .filter(e => e.msg !== 'Invalid value');
+    errors.errors = errorsFiltered;
+
+    let nav = await utilities.getNav();
+
+    const itemName = `${inv_make} ${inv_model}`;
+    // Render the form with errors and pre-fill the fields with user input
+    res.render('inventory/delete-inventory', {
+      errors,
+      title: 'Delete ' + itemName,
+      nav,
+      inv_make,
+      inv_model,
+      inv_price,
+      inv_year,
       inv_id,
     });
     return;

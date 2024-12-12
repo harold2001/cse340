@@ -49,11 +49,23 @@ router.get(
   utilities.handleErrors(invController.editInventoryView)
 );
 
+router.get(
+  '/delete/:inv_id',
+  utilities.handleErrors(invController.deleteInventoryView)
+);
+
 router.post(
   '/update/',
   invValidate.newInventoryRules(),
   invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
+);
+
+router.post(
+  '/delete/',
+  invValidate.deleteInventoryRules(),
+  invValidate.checkDeleteData,
+  utilities.handleErrors(invController.deleteInventory)
 );
 
 module.exports = router;
