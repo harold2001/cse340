@@ -12,7 +12,7 @@
 <% } %>
 
 <form class="form" action="/inv/new/classification" method="post">
-  <span id="required-message">* Field is required</span>
+  <span class="required-message">* Field is required</span>
   <p id="classification-rules">Name must be aphabetic characters only.</p>
   <label>
     Classification Name: <input type="text" name="classification_name" required value="<%= locals.classification_name %>" pattern="[A-Za-z]+" title="Name must contain alphabetic characters only (no spaces)." />

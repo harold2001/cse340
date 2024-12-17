@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const invModel = require('../models/inventory-model');
+const { ROLES } = require('./shared');
 const Util = {};
 
 /* ************************
@@ -161,6 +162,41 @@ Util.checkJWTToken = (req, res, next) => {
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next();
+  } else {
+    req.flash('notice', 'Please log in.');
+    return res.redirect('/account/login');
+  }
+};
+
+/* ****************************************
+ * Middleware to check admin and employee roles
+ **************************************** */
+Util.checkAdminEmployee = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          res.clearCookie('jwt');
+          req.flash('notice', 'Please log in');
+          return res.redirect('/account/login');
+        }
+
+        if (
+          accountData.account_type !== ROLES.ADMIN &&
+          accountData.account_type !== ROLES.EMPLOYEE
+        ) {
+          req.flash(
+            'notice',
+            'You do not have permission to access this page.'
+          );
+          return res.redirect('/account/login');
+        }
+
+        next();
+      }
+    );
   } else {
     req.flash('notice', 'Please log in.');
     return res.redirect('/account/login');

@@ -9,7 +9,7 @@
 <% } %>
 
 <form action="/inv/delete" method="post" class="form" id="updateForm">
-  <span id="required-message">* Confirm Deletion - The delete is permanent.</span>
+  <span class="required-message">* Confirm Deletion - The delete is permanent.</span>
   <label>
     Make:
     <input readonly type="text" name="inv_make" required pattern="^[A-Za-z0-9 ]+$" title="Make must contain only letters, numbers, and spaces." value="<%= locals.inv_make %>" />

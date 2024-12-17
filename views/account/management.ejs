@@ -11,4 +11,11 @@
 </ul>
 <% } %>
 
+<h2 id="welcomeManagement">Welcome, <%= locals.accountData.account_firstname %></h2>
 <p>You're logged in</p>
+<p id="editAccountLink"><a href="/account/edit/<%= locals.accountData.account_id %>">Edit account information</a></p>
+
+<% if (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'Employee') { %>
+<h3 id="inventorySubtitle">Inventory Management</h3>
+<p><a href="/inv">Manage Inventory</a></p>
+<% } %>

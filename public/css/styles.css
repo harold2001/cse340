@@ -58,6 +58,23 @@ textarea:valid {
 
 #tools {
   font-size: var(--small-font-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#tools span {
+  font-weight: 600;
+}
+
+.header-account-link {
+  padding: 8px 10px;
+  background-color: #1a7587;
+  color: white;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
 }
 
 /* Navigation */
@@ -343,7 +360,7 @@ footer {
 }
 
 /* Register Form */
-#required-message {
+.required-message {
   color: white;
   font-weight: 600;
   font-size: 0.8rem;
@@ -424,11 +441,25 @@ footer {
   color: white;
 }
 
+#welcomeManagement {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#inventorySubtitle {
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+#editAccountLink {
+  margin-top: 10px;
+}
+
 @media (min-width: 768px) {
   body {
     background-image: url('../images/site/small_check.jpg');
     background-repeat: no-repeat;
-    background-size: 100vw 100vh;
+    background-size: cover;
   }
 
   nav {
@@ -561,6 +592,23 @@ footer {
 
   #inventoryDisplay {
     grid-column: 1/3;
+  }
+
+  #welcomeManagement {
+    margin-top: 5px;
+    margin-bottom: -20px;
+    grid-column: 1 / 3;
+  }
+
+  #inventorySubtitle {
+    margin-top: 0;
+    margin-bottom: -20px;
+    grid-column: 1 / 3;
+  }
+
+  #editAccountLink {
+    margin-top: -20px;
+    grid-column: 1 / 3;
   }
 }
 
