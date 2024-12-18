@@ -4,7 +4,7 @@
   </span>
   <div id="tools">
     <% if (locals.accountData) { %>
-      <p>Welcome, <span><%= locals.accountData.account_firstname %></span></p>
+      <p><a href="/account">Welcome, <span><%= locals.accountData.account_firstname %></span></a></p>
       <form action="/account/logout" method="post"><button class="header-account-link" title="Click to log out">Logout</button></form>
     <% } else { %>
       <a title="Click to log in" href="/account/login">My Account</a>
