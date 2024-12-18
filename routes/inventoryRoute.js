@@ -3,6 +3,7 @@ const router = new express.Router();
 const utilities = require('../utilities/');
 const invController = require('../controllers/invController');
 const invValidate = require('../utilities/inventory-validation');
+const validate = require('../utilities/inventory-validation');
 
 router.get(
   '/',
@@ -65,6 +66,12 @@ router.get(
   utilities.handleErrors(invController.deleteInventoryView)
 );
 
+router.get(
+  '/pending',
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildPendingView)
+);
+
 router.post(
   '/update/',
   utilities.checkAdminEmployee,
@@ -79,6 +86,20 @@ router.post(
   invValidate.deleteInventoryRules(),
   invValidate.checkDeleteData,
   utilities.handleErrors(invController.deleteInventory)
+);
+
+router.post(
+  '/inventory/:action',
+  utilities.checkAdmin,
+  validate.checkPendingActions,
+  utilities.handleErrors(invController.handleInventoryPendingApproval)
+);
+
+router.post(
+  '/classification/:action',
+  utilities.checkAdmin,
+  validate.checkPendingActions,
+  utilities.handleErrors(invController.handleClassificationPendingApproval)
 );
 
 module.exports = router;

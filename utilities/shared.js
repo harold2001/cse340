@@ -3,3 +3,8 @@ export const ROLES = {
   EMPLOYEE: 'Employee',
   CLIENT: 'Client',
 };
+
+export const ALLOWED_ACTIONS = {
+  APPROVE: 'approve',
+  REJECT: 'reject',
+};

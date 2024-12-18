@@ -5,7 +5,19 @@ const pool = require('../database/');
  * ************************** */
 async function getClassifications() {
   return await pool.query(
-    'SELECT * FROM public.classification ORDER BY classification_name'
+    `SELECT c.classification_id ,c.classification_name FROM public.inventory i
+    INNER JOIN public.classification c ON i.classification_id = c.classification_id
+    WHERE i.inv_approved = true AND i.account_id IS NOT NULL
+    GROUP BY c.classification_name, c.classification_id
+    ORDER BY c.classification_id ASC;`
+  );
+}
+
+async function getClassificationsAproved() {
+  return await pool.query(
+    `SELECT * FROM public.classification
+    WHERE classification_approved = true 
+    ORDER BY classification_id ASC;`
   );
 }
 
@@ -26,7 +38,7 @@ async function getInventoryByClassificationId(classification_id) {
       `SELECT * FROM public.inventory AS i 
       JOIN public.classification AS c 
       ON i.classification_id = c.classification_id 
-      WHERE i.classification_id = $1`,
+      WHERE i.classification_id = $1 AND i.inv_approved = true`,
       [classification_id]
     );
     return data.rows;
@@ -41,12 +53,37 @@ async function getInventoryByItemId(item_id) {
   try {
     const data = await pool.query(
       `SELECT * FROM public.inventory
-      WHERE inv_id = $1`,
+      WHERE inv_id = $1 ORDER BY inv_id DESC`,
       [item_id]
     );
     return data.rows[0];
   } catch (error) {
     console.error('getinventorybyitemid error ' + error);
+  }
+}
+
+async function getPendingInventory() {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.inventory i 
+      INNER JOIN public.classification c ON i.classification_id = c.classification_id
+      WHERE i.inv_approved = false ORDER BY i.inv_id ASC;`
+    );
+    return data.rows;
+  } catch (error) {
+    console.error('getpendinginventory error ' + error);
+  }
+}
+
+async function getPendingClassifications() {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.classification
+      WHERE classification_approved = false ORDER BY classification_id ASC`
+    );
+    return data.rows;
+  } catch (error) {
+    console.error('getpendinginventory error ' + error);
   }
 }
 
@@ -143,6 +180,44 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+async function updateClassificationApproval(
+  account_id,
+  classification_id,
+  approvedOrNot
+) {
+  try {
+    const sql = approvedOrNot
+      ? 'UPDATE public.classification SET classification_approved = $1, account_id = $2 WHERE classification_id = $3 RETURNING *'
+      : 'DELETE FROM public.classification WHERE classification_id = $1 RETURNING *';
+
+    const params = approvedOrNot
+      ? [approvedOrNot, account_id, classification_id]
+      : [classification_id];
+
+    const data = await pool.query(sql, params);
+    return data.rows;
+  } catch (error) {
+    throw new Error('Modify Classification Approval Error');
+  }
+}
+
+async function updateInventoryApproval(account_id, inv_id, approvedOrNot) {
+  try {
+    const sql = approvedOrNot
+      ? 'UPDATE public.inventory SET inv_approved = $1, account_id = $2 WHERE inv_id = $3 RETURNING *'
+      : 'DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *';
+
+    const params = approvedOrNot
+      ? [approvedOrNot, account_id, inv_id]
+      : [inv_id];
+
+    const data = await pool.query(sql, params);
+    return data.rows;
+  } catch (error) {
+    throw new Error('Modify Inventory Approval Error');
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -152,4 +227,9 @@ module.exports = {
   createNewInventory,
   updateInventory,
   deleteInventoryItem,
+  getPendingInventory,
+  getPendingClassifications,
+  updateClassificationApproval,
+  updateInventoryApproval,
+  getClassificationsAproved,
 };

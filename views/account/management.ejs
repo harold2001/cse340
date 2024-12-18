@@ -17,5 +17,9 @@
 
 <% if (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'Employee') { %>
 <h3 id="inventorySubtitle">Inventory Management</h3>
-<p><a href="/inv">Manage Inventory</a></p>
+<p class="managementP"><a href="/inv">Manage Inventory</a></p>
+<% } %>
+
+<% if (locals.accountData.account_type === 'Admin') { %>
+<p><a href="/inv/pending">View inventory and classification pending approval</a></p>
 <% } %>

@@ -1,5 +1,6 @@
 const utilities = require('.');
 const { body, validationResult } = require('express-validator');
+const { ALLOWED_ACTIONS } = require('./shared');
 const validate = {};
 
 /*  **********************************
@@ -311,6 +312,15 @@ validate.checkDeleteData = async (req, res, next) => {
       inv_id,
     });
     return;
+  }
+  next();
+};
+
+validate.checkPendingActions = async (req, res, next) => {
+  const { action } = req.params;
+  if (!Object.values(ALLOWED_ACTIONS).includes(action)) {
+    req.flash('notice', 'Invalid action.');
+    return res.redirect('/inv/pending');
   }
   next();
 };

@@ -455,6 +455,187 @@ footer {
   margin-top: 10px;
 }
 
+.managementP {
+  margin-bottom: 10px;
+}
+
+/* Pending View */
+.tableContainer {
+  overflow-y: auto;
+  padding-bottom: 20px;
+  grid-column: 1 / 3;
+}
+
+.tableData {
+  width: 100%;
+  border-collapse: collapse;
+  grid-column: 1 / 3;
+}
+
+.tableData th,
+.tableData td {
+  padding: 10px;
+}
+
+.tableData th {
+  background-color: var(--secondary-color);
+  color: white;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.tableData td {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.tableData tr:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+
+.tableData tr:hover td {
+  background-color: #f1f1f1;
+}
+
+.tableData img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.tableData td img {
+  display: block;
+  margin: 0 auto;
+}
+
+.tableData th:first-child,
+.tableData td:first-child {
+  border-left: 1px solid var(--secondary-color);
+}
+
+.tableData th:last-child,
+.tableData td:last-child {
+  border-right: 1px solid var(--secondary-color);
+}
+
+.tableData th,
+.tableData td {
+  text-align: center;
+}
+
+.tableData tr:last-child td {
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.tableData caption {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btnApprove {
+  color: #4caf50;
+}
+
+.btnReject {
+  color: #f44336;
+}
+
+.btnApprove:disabled {
+  color: #b2b2b2;
+}
+
+.btnReject:disabled {
+  color: #b2b2b2;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  width: 90%;
+  max-width: 550px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-image {
+  width: 100%;
+  border-radius: 10px;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 5px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-content p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
 @media (min-width: 768px) {
   body {
     background-image: url('../images/site/small_check.jpg');
@@ -609,6 +790,19 @@ footer {
   #editAccountLink {
     margin-top: -20px;
     grid-column: 1 / 3;
+  }
+
+  .managementP {
+    grid-column: 1 / 3;
+    margin-bottom: -20px;
+  }
+
+  .h2Pending {
+    margin-bottom: -20px;
+  }
+
+  .h2Pending.last {
+    margin-top: -10px;
   }
 }
 

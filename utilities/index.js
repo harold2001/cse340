@@ -114,7 +114,7 @@ Util.buildItemGrid = async function (data) {
 };
 
 Util.buildClassificationList = async function (classification_id = null) {
-  let data = await invModel.getClassifications();
+  let data = await invModel.getClassificationsAproved();
   let classificationList =
     '<select name="classification_id" id="classificationList" required>';
   classificationList += "<option value=''>Choose a Classification</option>";
@@ -187,6 +187,38 @@ Util.checkAdminEmployee = (req, res, next) => {
           accountData.account_type !== ROLES.ADMIN &&
           accountData.account_type !== ROLES.EMPLOYEE
         ) {
+          req.flash(
+            'notice',
+            'You do not have permission to access this page.'
+          );
+          return res.redirect('/account/login');
+        }
+
+        next();
+      }
+    );
+  } else {
+    req.flash('notice', 'Please log in.');
+    return res.redirect('/account/login');
+  }
+};
+
+/* ****************************************
+ * Middleware to check admin and employee roles
+ **************************************** */
+Util.checkAdmin = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          res.clearCookie('jwt');
+          req.flash('notice', 'Please log in');
+          return res.redirect('/account/login');
+        }
+
+        if (accountData.account_type !== ROLES.ADMIN) {
           req.flash(
             'notice',
             'You do not have permission to access this page.'

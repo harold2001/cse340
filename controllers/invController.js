@@ -1,5 +1,6 @@
 const invModel = require('../models/inventory-model');
 const utilities = require('../utilities/');
+const { ALLOWED_ACTIONS } = require('../utilities/shared');
 
 const invCont = {};
 
@@ -300,6 +301,71 @@ invCont.deleteInventory = async function (req, res, next) {
       inv_price,
     });
   }
+};
+
+invCont.buildPendingView = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const inventory = await invModel.getPendingInventory();
+  const classifications = await invModel.getPendingClassifications();
+  res.render('./inventory/pending', {
+    title: 'Pending Approval',
+    nav,
+    errors: null,
+    inventory: inventory.sort((a, b) => a.inv_id - b.inv_id),
+    classifications: classifications.sort(
+      (a, b) => a.classification_id - b.classification_id
+    ),
+  });
+};
+
+invCont.handleInventoryPendingApproval = async function (req, res, next) {
+  const { action } = req.params;
+  const { inv_id } = req.body;
+  const { account_id } = res.locals.accountData;
+  const approvedOrNot = action === ALLOWED_ACTIONS.APPROVE;
+  const actionPerformed = await invModel.updateInventoryApproval(
+    account_id,
+    inv_id,
+    approvedOrNot
+  );
+
+  if (actionPerformed) {
+    req.flash(
+      'notice',
+      `The inventory ${actionPerformed[0].inv_make} ${
+        actionPerformed[0].inv_model
+      } was ${approvedOrNot ? 'approved' : 'rejected'}.`
+    );
+  } else {
+    req.flash('notice', 'Sorry, the approval failed.');
+  }
+
+  return res.redirect('/inv/pending');
+};
+
+invCont.handleClassificationPendingApproval = async function (req, res, next) {
+  const { action } = req.params;
+  const { classification_id } = req.body;
+  const { account_id } = res.locals.accountData;
+  const approvedOrNot = action === ALLOWED_ACTIONS.APPROVE;
+  const actionPerformed = await invModel.updateClassificationApproval(
+    account_id,
+    classification_id,
+    approvedOrNot
+  );
+
+  if (actionPerformed) {
+    req.flash(
+      'notice',
+      `The classification ${actionPerformed[0].classification_name} was ${
+        approvedOrNot ? 'approved' : 'rejected'
+      }.`
+    );
+  } else {
+    req.flash('notice', 'Sorry, the approval failed.');
+  }
+
+  return res.redirect('/inv/pending');
 };
 
 module.exports = invCont;
