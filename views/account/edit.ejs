@@ -22,8 +22,7 @@
   <label>
     Email: <input type="email" name="account_email" placeholder="example@example.com" required value="<%= locals.account_email %>">
   </label>
-  <button type="submit">Update</button>
-  <input type="text" hidden name="account_id" value="<%= locals.account_id %>">
+  <button type="submit" name="account_id" value="<%= locals.account_id %>">Update</button>
 </form>
 <h2 id="welcomeManagement">Update password</h2>
 <form class="form" method="post" action="/account/update/password">
@@ -32,6 +31,5 @@
     New password: <input type="password" name="account_password" placeholder="Insert your new password here" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
   </label>
   <p id="password-rules">Password must be minimum of 12 characters and include 1 capital letter, 1 number, and 1 special character.</p>
-  <button type="submit">Update password</button>
-  <input type="text" hidden name="account_id" value="<%= locals.account_id %>">
+  <button type="submit" name="account_id" value="<%= locals.account_id %>">Update password</button>
 </form>
